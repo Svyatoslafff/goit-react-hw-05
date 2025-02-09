@@ -1,0 +1,14 @@
+.movieDescription {
+    display: flex;
+    gap: 20px;
+    .shortInfoList {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+        li {
+            &:last-child {
+                padding-top: 10px;
+            }
+        }
+    }
+}
