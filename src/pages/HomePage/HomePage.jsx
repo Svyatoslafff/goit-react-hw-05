@@ -4,8 +4,9 @@ import { ThreeDots } from 'react-loader-spinner';
 
 // import MovieDetailsPage from '../MovieDetailsPage/MovieDetailsPage';
 
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import MovieList from '../../components/MovieList/MovieList';
 
 export default function HomePage() {
     const [trendings, setTrendings] = useState([]);
@@ -16,7 +17,6 @@ export default function HomePage() {
         async function getTrendings() {
             try {
                 const newTrandings = await fetchTrendingMovies();
-                console.log(newTrandings);
 
                 setTrendings(newTrandings.results);
             } catch (error) {
@@ -42,18 +42,7 @@ export default function HomePage() {
                     wrapperClass=""
                 />
             )}
-            <ul>
-                {trendings.map(({ id, title, overview }) => {
-                    return (
-                        <li key={id}>
-                            <Link to={`/movies/${id}`} state={location}>
-                                <h3>{title}</h3>
-                            </Link>
-                            <p>{overview}</p>
-                        </li>
-                    );
-                })}
-            </ul>
+            <MovieList movies={trendings} location={location} />
         </section>
     );
 }

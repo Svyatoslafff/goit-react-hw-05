@@ -6,6 +6,7 @@ import css from './MovieCast.module.scss';
 
 export default function MovieCast() {
     const { movieID } = useParams();
+    const [isCast, setIsCast] = useState(true);
     const [movieCast, setMovieCast] = useState(() => {
         const data = JSON.parse(sessionStorage.getItem('cast'));
         const id = JSON.parse(sessionStorage.getItem('movieId'));
@@ -21,7 +22,25 @@ export default function MovieCast() {
         sessionStorage.setItem('movieId', JSON.stringify(movieID));
 
         async function getMovieCast() {
-            const data = (await fetchMovieCreditsById(movieID)).cast;
+            let data = await fetchMovieCreditsById(movieID);
+            if (data.cast.length > 0) {
+                data = data.cast;
+                setIsCast(true);
+            } else {
+                data = data.crew;
+                // let crewData = [];
+                // let crewData = data.reduce(
+                //     (crewArray, crewMember, id, data) => {
+                //         const filteredMember = data.filter(item => {
+                //             return crewMember.name === item.name;
+                //         });
+                //         crewArray = [...crewArray, filteredMember];
+                //     }
+                // );
+                // console.log(crewData);
+
+                setIsCast(false);
+            }
             console.log(data);
 
             sessionStorage.setItem('cast', JSON.stringify(data));
@@ -31,8 +50,6 @@ export default function MovieCast() {
             getMovieCast();
         }
     }, []);
-
-    console.log(movieCast);
 
     if (movieCast.length === 0) {
         return (
@@ -50,7 +67,7 @@ export default function MovieCast() {
     }
     return (
         <ul className={css.castList}>
-            {movieCast.map(({ name, character, id, profile_path }) => {
+            {movieCast.map(({ name, character, id, profile_path, job }) => {
                 return (
                     <li key={id}>
                         <img
@@ -59,9 +76,14 @@ export default function MovieCast() {
                             }`}
                             alt="actor's photo"
                         />
+
                         <div className="info">
                             <h3>{name}</h3>
-                            <p>Character: {character}</p>
+                            {isCast ? (
+                                <p>Character: {character}</p>
+                            ) : (
+                                <p>Job: {job}</p>
+                            )}
                         </div>
                     </li>
                 );

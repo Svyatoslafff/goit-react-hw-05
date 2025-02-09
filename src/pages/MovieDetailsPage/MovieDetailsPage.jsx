@@ -19,9 +19,8 @@ export default function MovieDetailsPage() {
         cast: location.pathname.includes('cast') ? true : false,
         reviews: location.pathname.includes('reviews') ? true : false,
     });
-    console.log(location);
 
-    const { current: goBack } = useRef(location?.state ?? '/');
+    const { current: goBack } = useRef(location?.state ?? '/movies');
 
     useEffect(() => {
         async function getMovieDeatails() {
@@ -32,8 +31,6 @@ export default function MovieDetailsPage() {
     }, []);
 
     function handleSubLinkClick(clickedLinkName, toOverwrite) {
-        console.log(subLinksBackRoute);
-
         if (subLinksBackRoute[clickedLinkName]) {
             setSubLinksBackRoute({
                 [clickedLinkName]: false,
@@ -45,8 +42,6 @@ export default function MovieDetailsPage() {
                 [toOverwrite]: false,
             });
         }
-
-        console.log(subLinksBackRoute);
     }
 
     //loader render condition
@@ -80,7 +75,9 @@ export default function MovieDetailsPage() {
 
     release_date = release_date.slice(0, 4);
     genres = genres.map(item => item.name).join(', ');
-    production_countries = production_countries.map(item => item.name);
+    production_countries = production_countries
+        .map(item => item.name)
+        .join(', ');
 
     return (
         <section>
@@ -106,24 +103,30 @@ export default function MovieDetailsPage() {
                         )}
                         <ul className={css.shortInfoList}>
                             <li className={css.listItem}>
-                                Release date: {release_date}
-                            </li>
-                            <li className={css.listItem}>Status: {status}</li>
-                            <li className={css.listItem}>Genres: {genres}</li>
-                            <li className={css.listItem}>
-                                Countries: {production_countries}
+                                <p>Release date: {release_date}</p>
                             </li>
                             <li className={css.listItem}>
-                                Average rating: {vote_average}
+                                <p>Status: {status}</p>
                             </li>
                             <li className={css.listItem}>
-                                Total votes: {vote_count}
+                                <p>Genres: {genres}</p>
                             </li>
                             <li className={css.listItem}>
-                                Overview: {overview}
+                                <p>Countries: {production_countries}</p>
+                            </li>
+                            <li className={css.listItem}>
+                                <p>Average rating: {vote_average}</p>
+                            </li>
+                            <li className={css.listItem}>
+                                <p>Total votes: {vote_count}</p>
+                            </li>
+                            <li className={css.listItem}>
+                                <p>Overview: {overview}</p>
                             </li>
                         </ul>
-                        {/* <p className={css.listItem}>Overview: {overview}</p> */}
+                        <p>
+                            {/* <p className={css.listItem}>Overview: {overview}</p> */}
+                        </p>
                     </div>
                 </div>
                 <div className={css.additionalInfo}>

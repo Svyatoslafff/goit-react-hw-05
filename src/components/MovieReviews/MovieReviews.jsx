@@ -8,8 +8,6 @@ export default function MovieReviews() {
     const [reviews, setReviews] = useState(() => {
         const data = JSON.parse(sessionStorage.getItem('reviews'));
         const id = JSON.parse(sessionStorage.getItem('movieId'));
-        console.log(Boolean(data));
-        console.log(id);
 
         if (data && id === movieID) {
             return data;
@@ -25,12 +23,10 @@ export default function MovieReviews() {
 
             async function getReviews() {
                 const data = (await fetchMovieReviewsById(movieID)).results;
-                console.log(data);
 
                 sessionStorage.setItem('reviews', JSON.stringify(data));
                 setReviews(data);
             }
-            console.log(Boolean(reviews));
 
             if (!reviews) {
                 getReviews();
@@ -71,10 +67,15 @@ export default function MovieReviews() {
                             return (
                                 <li key={id}>
                                     <img
-                                        src={`https://image.tmdb.org/t/p/w200${
+                                        src={
                                             avatar_path
-                                        }`}
+                                                ? `https://image.tmdb.org/t/p/w200${
+                                                      avatar_path
+                                                  }`
+                                                : '/src/img/NoImage.jpg'
+                                        }
                                         alt="user avatar"
+                                        width="200"
                                     />
                                     <h3>{username}</h3>
                                     <span>{created_at}</span>
