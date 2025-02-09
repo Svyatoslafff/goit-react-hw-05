@@ -57,7 +57,7 @@ export default function MovieCast() {
                             src={`https://image.tmdb.org/t/p/w200${
                                 profile_path
                             }`}
-                            alt=""
+                            alt="actor's photo"
                         />
                         <div className="info">
                             <h3>{name}</h3>

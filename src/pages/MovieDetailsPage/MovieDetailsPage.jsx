@@ -31,13 +31,19 @@ export default function MovieDetailsPage() {
         getMovieDeatails();
     }, []);
 
-    function handleSunLinkClick(name) {
+    function handleSubLinkClick(clickedLinkName, toOverwrite) {
         console.log(subLinksBackRoute);
 
-        if (subLinksBackRoute[name]) {
-            setSubLinksBackRoute({ ...subLinksBackRoute, [name]: false });
+        if (subLinksBackRoute[clickedLinkName]) {
+            setSubLinksBackRoute({
+                [clickedLinkName]: false,
+                [toOverwrite]: false,
+            });
         } else {
-            setSubLinksBackRoute({ ...subLinksBackRoute, [name]: true });
+            setSubLinksBackRoute({
+                [clickedLinkName]: true,
+                [toOverwrite]: false,
+            });
         }
 
         console.log(subLinksBackRoute);
@@ -129,7 +135,9 @@ export default function MovieDetailsPage() {
                                         ? `/movies/${movieID}`
                                         : 'cast'
                                 }
-                                onClick={() => handleSunLinkClick('cast')}
+                                onClick={() =>
+                                    handleSubLinkClick('cast', 'reviews')
+                                }
                             >
                                 Cast
                             </NavLink>
@@ -141,7 +149,9 @@ export default function MovieDetailsPage() {
                                         ? `/movies/${movieID}`
                                         : 'reviews'
                                 }
-                                onClick={() => handleSunLinkClick('reviews')}
+                                onClick={() =>
+                                    handleSubLinkClick('reviews', 'cast')
+                                }
                             >
                                 Reviews
                             </NavLink>
