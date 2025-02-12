@@ -18,7 +18,7 @@ export async function fetchTrendingMovies() {
 export async function fetchMoviesByQuery(query) {
     return (
         await axios.get(
-            `/search/movie?include_adult=true&language=en-US&page=1&query=${query}`,
+            `/search/movie?include_adult=true&language=en-US&page=1&query=${query.toLowerCase()}`,
             options
         )
     ).data;

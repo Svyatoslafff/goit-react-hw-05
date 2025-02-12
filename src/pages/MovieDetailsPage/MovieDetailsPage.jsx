@@ -10,11 +10,13 @@ import { fetchMovieById } from '../../api';
 import { ThreeDots } from 'react-loader-spinner';
 
 import css from './MovieDetailsPage.module.scss';
+import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 
 export default function MovieDetailsPage() {
-    const [movieDescription, setMovieDescription] = useState(null);
     const { movieID } = useParams();
     const location = useLocation();
+    const [error, setError] = useState(false);
+    const [movieDescription, setMovieDescription] = useState(null);
     const [subLinksBackRoute, setSubLinksBackRoute] = useState({
         cast: location.pathname.includes('cast') ? true : false,
         reviews: location.pathname.includes('reviews') ? true : false,
@@ -24,8 +26,12 @@ export default function MovieDetailsPage() {
 
     useEffect(() => {
         async function getMovieDeatails() {
-            const data = await fetchMovieById(movieID);
-            setMovieDescription(data);
+            try {
+                const data = await fetchMovieById(movieID);
+                setMovieDescription(data);
+            } catch (error) {
+                setError(error.status);
+            }
         }
         getMovieDeatails();
     }, [movieID]);
@@ -45,18 +51,28 @@ export default function MovieDetailsPage() {
     }
 
     //loader render condition
-    if (!movieDescription) {
+    if (!movieDescription && !error) {
         return (
-            <ThreeDots
-                visible={true}
-                height="80"
-                width="80"
-                color="#4fa94d"
-                radius="9"
-                ariaLabel="three-dots-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
-            />
+            <section>
+                <ThreeDots
+                    visible={true}
+                    height="80"
+                    width="80"
+                    color="#4fa94d"
+                    radius="9"
+                    ariaLabel="three-dots-loading"
+                    wrapperStyle={{}}
+                    wrapperClass=""
+                />
+            </section>
+        );
+    }
+
+    if (error) {
+        return (
+            <section>
+                <ErrorMessage error={error} />
+            </section>
         );
     }
 
@@ -81,90 +97,94 @@ export default function MovieDetailsPage() {
 
     return (
         <section>
-            <div className="container">
-                <Link to={goBack}>Go Back</Link>
-                <div className={css.movieDescription}>
-                    {window.innerWidth <= 768 && (
-                        <div className={css.mobileTitleContainer}>
-                            <h2 className={css.movieTitle}>{title}</h2>
-                        </div>
-                    )}
-                    <div className={css.imageContainer}>
-                        <img
-                            src={`https://image.tmdb.org/t/p/w300${
-                                poster_path
-                            }`}
-                            alt={title + ' movie poster'}
-                        />
-                    </div>
-                    <div className={css.textDescriptionContainer}>
-                        {window.innerWidth > 768 && (
-                            <h2 className={css.movieTitle}>{title}</h2>
+            {!error ? (
+                <div className="container">
+                    <Link to={goBack}>Go Back</Link>
+                    <div className={css.movieDescription}>
+                        {window.innerWidth <= 768 && (
+                            <div className={css.mobileTitleContainer}>
+                                <h2 className={css.movieTitle}>{title}</h2>
+                            </div>
                         )}
-                        <ul className={css.shortInfoList}>
-                            <li className={css.listItem}>
-                                <p>Release date: {release_date}</p>
+                        <div className={css.imageContainer}>
+                            <img
+                                src={`https://image.tmdb.org/t/p/w300${
+                                    poster_path
+                                }`}
+                                alt={title + ' movie poster'}
+                            />
+                        </div>
+                        <div className={css.textDescriptionContainer}>
+                            {window.innerWidth > 768 && (
+                                <h2 className={css.movieTitle}>{title}</h2>
+                            )}
+                            <ul className={css.shortInfoList}>
+                                <li className={css.listItem}>
+                                    <p>Release date: {release_date}</p>
+                                </li>
+                                <li className={css.listItem}>
+                                    <p>Status: {status}</p>
+                                </li>
+                                <li className={css.listItem}>
+                                    <p>Genres: {genres}</p>
+                                </li>
+                                <li className={css.listItem}>
+                                    <p>Countries: {production_countries}</p>
+                                </li>
+                                <li className={css.listItem}>
+                                    <p>Average rating: {vote_average}</p>
+                                </li>
+                                <li className={css.listItem}>
+                                    <p>Total votes: {vote_count}</p>
+                                </li>
+                                <li className={css.listItem}>
+                                    <p>Overview: {overview}</p>
+                                </li>
+                            </ul>
+                            <p>
+                                {/* <p className={css.listItem}>Overview: {overview}</p> */}
+                            </p>
+                        </div>
+                    </div>
+                    <div className={css.additionalInfo}>
+                        <ul>
+                            <li>
+                                <NavLink
+                                    to={
+                                        subLinksBackRoute.cast
+                                            ? `/movies/${movieID}`
+                                            : 'cast'
+                                    }
+                                    onClick={() =>
+                                        handleSubLinkClick('cast', 'reviews')
+                                    }
+                                >
+                                    Cast
+                                </NavLink>
                             </li>
-                            <li className={css.listItem}>
-                                <p>Status: {status}</p>
-                            </li>
-                            <li className={css.listItem}>
-                                <p>Genres: {genres}</p>
-                            </li>
-                            <li className={css.listItem}>
-                                <p>Countries: {production_countries}</p>
-                            </li>
-                            <li className={css.listItem}>
-                                <p>Average rating: {vote_average}</p>
-                            </li>
-                            <li className={css.listItem}>
-                                <p>Total votes: {vote_count}</p>
-                            </li>
-                            <li className={css.listItem}>
-                                <p>Overview: {overview}</p>
+                            <li>
+                                <NavLink
+                                    to={
+                                        subLinksBackRoute.reviews
+                                            ? `/movies/${movieID}`
+                                            : 'reviews'
+                                    }
+                                    onClick={() =>
+                                        handleSubLinkClick('reviews', 'cast')
+                                    }
+                                >
+                                    Reviews
+                                </NavLink>
                             </li>
                         </ul>
-                        <p>
-                            {/* <p className={css.listItem}>Overview: {overview}</p> */}
-                        </p>
+                        <div>
+                            <Outlet />
+                        </div>
                     </div>
                 </div>
-                <div className={css.additionalInfo}>
-                    <ul>
-                        <li>
-                            <NavLink
-                                to={
-                                    subLinksBackRoute.cast
-                                        ? `/movies/${movieID}`
-                                        : 'cast'
-                                }
-                                onClick={() =>
-                                    handleSubLinkClick('cast', 'reviews')
-                                }
-                            >
-                                Cast
-                            </NavLink>
-                        </li>
-                        <li>
-                            <NavLink
-                                to={
-                                    subLinksBackRoute.reviews
-                                        ? `/movies/${movieID}`
-                                        : 'reviews'
-                                }
-                                onClick={() =>
-                                    handleSubLinkClick('reviews', 'cast')
-                                }
-                            >
-                                Reviews
-                            </NavLink>
-                        </li>
-                    </ul>
-                    <div>
-                        <Outlet />
-                    </div>
-                </div>
-            </div>
+            ) : (
+                <ErrorMessage error={error} />
+            )}
         </section>
     );
 }
