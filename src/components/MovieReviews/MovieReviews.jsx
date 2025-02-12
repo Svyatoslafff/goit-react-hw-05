@@ -36,7 +36,7 @@ export default function MovieReviews() {
         } finally {
             setLoaderIsActive(false);
         }
-    }, []);
+    }, [movieID]);
 
     if (loaderIsActive || !reviews) {
         return (

@@ -2,10 +2,9 @@ import { Route, Routes } from 'react-router';
 import { lazy, Suspense } from 'react';
 import './App.module.scss';
 
-import Header from '../Header/Navigation';
+import Navigations from '../Navigations/Navigations';
 import { ThreeDots } from 'react-loader-spinner';
-// const HomePage = lazy(() => import('../../pages/HomePage/HomePage'));
-import HomePage from '../../pages/HomePage/HomePage';
+const HomePage = lazy(() => import('../../pages/HomePage/HomePage'));
 const NotFoundPage = lazy(
     () => import('../../pages/NotFoundPage/NotFoundPage')
 );
@@ -19,7 +18,7 @@ const MovieDetailsPage = lazy(
 export default function App() {
     return (
         <>
-            <Header />
+            <Navigations />
             <Suspense
                 fallback={
                     <ThreeDots

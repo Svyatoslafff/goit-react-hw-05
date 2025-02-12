@@ -26,22 +26,7 @@ export default function MovieCast() {
             if (data.cast.length > 0) {
                 data = data.cast;
                 setIsCast(true);
-            } else {
-                data = data.crew;
-                // let crewData = [];
-                // let crewData = data.reduce(
-                //     (crewArray, crewMember, id, data) => {
-                //         const filteredMember = data.filter(item => {
-                //             return crewMember.name === item.name;
-                //         });
-                //         crewArray = [...crewArray, filteredMember];
-                //     }
-                // );
-                // console.log(crewData);
-
-                setIsCast(false);
             }
-            console.log(data);
 
             sessionStorage.setItem('cast', JSON.stringify(data));
             setMovieCast(data);
@@ -49,7 +34,7 @@ export default function MovieCast() {
         if (movieCast.length === 0) {
             getMovieCast();
         }
-    }, []);
+    }, [movieID]);
 
     if (movieCast.length === 0) {
         return (

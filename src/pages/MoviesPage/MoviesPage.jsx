@@ -1,6 +1,6 @@
 import { Field, Formik, Form } from 'formik';
 import { fetchMoviesByQuery } from '../../api';
-import { useLocation, useSearchParams } from 'react-router-dom';
+import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import MovieList from '../../components/MovieList/MovieList';
 import { ThreeDots } from 'react-loader-spinner';
@@ -14,7 +14,6 @@ export default function MoviesPage() {
     const [loaderIsActive, setLoaderIsActive] = useState(false);
     const [isSearched, setIsSearched] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
-    const location = useLocation();
 
     useEffect(() => {
         const query = new URLSearchParams(searchParams).get('query');
@@ -59,7 +58,7 @@ export default function MoviesPage() {
             {isSearched && (
                 <div className="responseContainer">
                     {movies.length > 0 ? (
-                        <MovieList movies={movies} location={location} />
+                        <MovieList movies={movies} />
                     ) : (
                         <p>
                             Sorry, no movies were found. Please try something

@@ -2,16 +2,11 @@
 import { fetchTrendingMovies } from '/src/api.js';
 import { ThreeDots } from 'react-loader-spinner';
 
-// import MovieDetailsPage from '../MovieDetailsPage/MovieDetailsPage';
-
-import { useLocation } from 'react-router-dom';
 import { useEffect, useState } from 'react';
 import MovieList from '../../components/MovieList/MovieList';
 
 export default function HomePage() {
     const [trendings, setTrendings] = useState([]);
-    const location = useLocation();
-    console.log(location);
 
     useEffect(() => {
         async function getTrendings() {
@@ -42,7 +37,7 @@ export default function HomePage() {
                     wrapperClass=""
                 />
             )}
-            <MovieList movies={trendings} location={location} />
+            <MovieList movies={trendings} />
         </section>
     );
 }

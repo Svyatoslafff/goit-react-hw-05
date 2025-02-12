@@ -28,7 +28,7 @@ export default function MovieDetailsPage() {
             setMovieDescription(data);
         }
         getMovieDeatails();
-    }, []);
+    }, [movieID]);
 
     function handleSubLinkClick(clickedLinkName, toOverwrite) {
         if (subLinksBackRoute[clickedLinkName]) {
