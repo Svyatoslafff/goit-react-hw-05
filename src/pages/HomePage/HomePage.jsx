@@ -37,16 +37,18 @@ export default function HomePage() {
                     <ErrorMessage error={error} />
                 )}
                 {isLoading && (
-                    <ThreeDots
-                        visible={true}
-                        height="80"
-                        width="80"
-                        color="#4fa94d"
-                        radius="9"
-                        ariaLabel="three-dots-loading"
-                        wrapperStyle={{}}
-                        wrapperClass=""
-                    />
+                    <div className="loaderContainer">
+                        <ThreeDots
+                            visible={true}
+                            height="80"
+                            width="80"
+                            color="#4fa94d"
+                            radius="9"
+                            ariaLabel="three-dots-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                        />
+                    </div>
                 )}
             </div>
         </section>

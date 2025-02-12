@@ -2,9 +2,9 @@ import { NavLink } from 'react-router';
 import css from './Navigations.module.scss';
 import clsx from 'clsx';
 
-const buildLinkClass = ({ isActive }) => {
+function buildLinkClass({ isActive }) {
     return clsx(css.link, isActive && css.active);
-};
+}
 
 export default function Header() {
     return (

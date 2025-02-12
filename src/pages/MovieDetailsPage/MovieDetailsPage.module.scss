@@ -1,13 +1,94 @@
-.movieDescription {
+.movieDetailsContainer {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     gap: 20px;
-    .shortInfoList {
+    .goBackButton {
+        width: 100%;
+        text-align: center;
+        padding: 10px 20px;
+        background-color: #518a4b;
+        color: #fff;
+        border: 0;
+        border-radius: 5px;
+        transition: all 250ms ease-in-out;
+        &:hover,
+        &:focus {
+            background-color: #5c9c55;
+        }
+    }
+    .movieDescription {
         display: flex;
+        gap: 20px;
         flex-direction: column;
-        gap: 5px;
-        li {
-            &:last-child {
-                margin-top: 10px;
+        .shortInfoList {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            li {
+                &:last-child {
+                    margin-top: 10px;
+                }
+            }
+        }
+        .mobileTitleContainer,
+        .imageContainer {
+            display: flex;
+            justify-content: center;
+            text-align: center;
+        }
+        .textDescriptionContainer {
+            .movieTitle {
+                padding-bottom: 15px;
+            }
+            .infoItem {
+                font-weight: 600;
+            }
+        }
+    }
+    .additionalInfo {
+        width: 100%;
+        ul {
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            font-size: 18px;
+            padding-bottom: 20px;
+            .active {
+                $activeColor: #ff6565;
+                color: $activeColor;
+                position: relative;
+                width: max-content;
+                &::after {
+                    position: absolute;
+                    content: '';
+                    bottom: -2px;
+                    left: 0;
+                    width: 100%;
+                    height: 3px;
+                    border-radius: 15%;
+                    background-color: $activeColor;
+                }
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .movieDetailsContainer {
+        .movieDescription {
+            display: flex;
+            gap: 20px;
+            flex-direction: row;
+            .shortInfoList {
+                display: flex;
+                flex-direction: column;
+                gap: 5px;
+                li {
+                    &:last-child {
+                        margin-top: 10px;
+                    }
+                }
             }
         }
     }

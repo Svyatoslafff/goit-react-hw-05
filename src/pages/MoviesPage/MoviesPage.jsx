@@ -1,11 +1,14 @@
 import { Field, Formik, Form } from 'formik';
-import { fetchMoviesByQuery } from '../../api';
 import { useSearchParams } from 'react-router-dom';
 import { useEffect, useState } from 'react';
+import toast from 'react-hot-toast';
+
+import { fetchMoviesByQuery } from '../../api';
+import css from './MoviesPage.module.scss';
+
 import MovieList from '../../components/MovieList/MovieList';
 import { ThreeDots } from 'react-loader-spinner';
 import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
-import toast from 'react-hot-toast';
 
 const initialValues = {
     query: '',
@@ -39,11 +42,13 @@ export default function MoviesPage() {
     }
 
     function handleSubmit(value, action) {
-        const { query } = value;
+        let { query } = value;
         if (!query) {
             toast.error('Please write something!');
             return;
         }
+        query = query.toLowerCase();
+
         const updatedSearchParams = new URLSearchParams(searchParams);
         updatedSearchParams.set('query', query);
         setSearchParams(updatedSearchParams);
@@ -56,16 +61,26 @@ export default function MoviesPage() {
             <div className="container">
                 {!error ? (
                     <>
-                        <div className="formContainer">
+                        <div className={css.formContainer}>
                             <Formik
                                 initialValues={initialValues}
                                 onSubmit={handleSubmit}
                             >
-                                <Form>
-                                    <Field name="query" type="text" />
+                                <Form className={css.form}>
+                                    <Field
+                                        name="query"
+                                        type="text"
+                                        className={css.queryInput}
+                                    />
                                     <button type="submit">Search</button>
                                 </Form>
                             </Formik>
+                            {movies.length > 0 && (
+                                <p>
+                                    Found {movies.length}{' '}
+                                    {movies.length === 1 ? 'movie' : 'movies'}
+                                </p>
+                            )}
                         </div>
                         {isSearched && (
                             <div className="responseContainer">
@@ -84,16 +99,18 @@ export default function MoviesPage() {
                     <ErrorMessage error={error} />
                 )}
                 {isLoading && (
-                    <ThreeDots
-                        visible={true}
-                        height="80"
-                        width="80"
-                        color="#4fa94d"
-                        radius="9"
-                        ariaLabel="three-dots-loading"
-                        wrapperStyle={{}}
-                        wrapperClass=""
-                    />
+                    <div className="loaderContainer">
+                        <ThreeDots
+                            visible={true}
+                            height="80"
+                            width="80"
+                            color="#4fa94d"
+                            radius="9"
+                            ariaLabel="three-dots-loading"
+                            wrapperStyle={{}}
+                            wrapperClass=""
+                        />
+                    </div>
                 )}
             </div>
         </section>

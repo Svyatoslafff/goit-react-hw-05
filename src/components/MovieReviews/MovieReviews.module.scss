@@ -1,0 +1,30 @@
+.reviewsList {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    .listItem {
+        &:not(:last-child) {
+            border-bottom: 1px dashed #3d3d3dcb;
+            padding-bottom: 20px;
+        }
+        .userInfo {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding-bottom: 10px;
+            img {
+                aspect-ratio: 1 / 1;
+                width: 50px;
+                border-radius: 50%;
+                display: inline;
+            }
+            .postedTime {
+                color: #494949;
+            }
+        }
+    }
+}
+
+.noReviewsText {
+    text-align: center;
+}

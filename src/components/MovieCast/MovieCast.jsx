@@ -45,7 +45,7 @@ export default function MovieCast() {
                     {movieCast.map(
                         ({ name, character, id, profile_path, job }) => {
                             return (
-                                <li key={id}>
+                                <li className={css.listItem} key={id}>
                                     <img
                                         src={
                                             profile_path
@@ -75,16 +75,18 @@ export default function MovieCast() {
                 <ErrorMessage error={error} />
             )}
             {isLoading && (
-                <ThreeDots
-                    visible={true}
-                    height="80"
-                    width="80"
-                    color="#4fa94d"
-                    radius="9"
-                    ariaLabel="three-dots-loading"
-                    wrapperStyle={{}}
-                    wrapperClass=""
-                />
+                <div className="loaderContainer">
+                    <ThreeDots
+                        visible={true}
+                        height="80"
+                        width="80"
+                        color="#4fa94d"
+                        radius="9"
+                        ariaLabel="three-dots-loading"
+                        wrapperStyle={{}}
+                        wrapperClass=""
+                    />
+                </div>
             )}
         </>
     );

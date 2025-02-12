@@ -1,0 +1,46 @@
+.formContainer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+
+    .form {
+        display: flex;
+        flex-direction: row;
+        gap: 10px;
+        .queryInput {
+            padding: 5px 10px;
+
+            max-width: 200px;
+            width: 100%;
+            border: 1px solid #353535ad;
+            border-radius: 4px;
+        }
+        button {
+            height: 100%;
+            padding: 5px 10px;
+            background-color: #518a4b;
+            color: #fff;
+            border: 0;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: all 250ms ease-in-out;
+            &:hover,
+            &:focus {
+                background-color: #5c9c55;
+            }
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .formContainer {
+        .form {
+            .queryInput {
+                padding: 7px 20px;
+            }
+            button {
+                padding: 7px 20px;
+            }
+        }
+    }
+}

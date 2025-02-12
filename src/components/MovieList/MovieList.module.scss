@@ -1,0 +1,16 @@
+.moviesContainer {
+    display: flex;
+    flex-direction: column;
+    gap: 30px;
+    list-style-type: decimal;
+    font-weight: 600;
+
+    li {
+        .title {
+            margin-bottom: 5px;
+        }
+        .movieOverview {
+            font-weight: 400;
+        }
+    }
+}
