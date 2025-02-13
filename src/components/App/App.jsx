@@ -2,7 +2,7 @@ import { Route, Routes } from 'react-router';
 import { lazy, Suspense } from 'react';
 import './App.module.scss';
 
-import Navigations from '../Navigations/Navigations';
+import Navigation from '../Navigation/Navigation';
 import { ThreeDots } from 'react-loader-spinner';
 const HomePage = lazy(() => import('../../pages/HomePage/HomePage'));
 const NotFoundPage = lazy(
@@ -18,7 +18,7 @@ const MovieDetailsPage = lazy(
 export default function App() {
     return (
         <>
-            <Navigations />
+            <Navigation />
             <Suspense
                 fallback={
                     <div className="loaderContainer">
@@ -39,7 +39,7 @@ export default function App() {
                     <Route path="/" element={<HomePage />} />
                     <Route path="/movies" element={<MoviesPage />} />
                     <Route
-                        path="/movies/:movieID"
+                        path="/movies/:movieId"
                         element={<MovieDetailsPage />}
                     >
                         <Route path="cast" element={<MovieCast />} />

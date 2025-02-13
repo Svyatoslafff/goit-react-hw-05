@@ -14,7 +14,7 @@ import ErrorMessage from '../../components/ErrorMessage/ErrorMessage';
 import clsx from 'clsx';
 
 export default function MovieDetailsPage() {
-    const { movieID } = useParams();
+    const { movieId } = useParams();
     const location = useLocation();
     const [error, setError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -30,7 +30,7 @@ export default function MovieDetailsPage() {
         async function getMovieDeatails() {
             try {
                 setIsLoading(true);
-                const data = await fetchMovieById(movieID);
+                const data = await fetchMovieById(movieId);
                 setMovieDescription(data);
             } catch (error) {
                 setError(error.status);
@@ -39,7 +39,7 @@ export default function MovieDetailsPage() {
             }
         }
         getMovieDeatails();
-    }, [movieID]);
+    }, [movieId]);
 
     function handleSubLinkClick(clickedLinkName, toOverwrite) {
         if (subLinksBackRoute[clickedLinkName]) {
@@ -201,7 +201,7 @@ export default function MovieDetailsPage() {
                                             <NavLink
                                                 to={
                                                     subLinksBackRoute.cast
-                                                        ? `/movies/${movieID}`
+                                                        ? `/movies/${movieId}`
                                                         : 'cast'
                                                 }
                                                 onClick={() =>
@@ -219,7 +219,7 @@ export default function MovieDetailsPage() {
                                             <NavLink
                                                 to={
                                                     subLinksBackRoute.reviews
-                                                        ? `/movies/${movieID}`
+                                                        ? `/movies/${movieId}`
                                                         : 'reviews'
                                                 }
                                                 onClick={() =>

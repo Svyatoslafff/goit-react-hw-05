@@ -6,7 +6,7 @@ import css from './MovieCast.module.scss';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 export default function MovieCast() {
-    const { movieID } = useParams();
+    const { movieId } = useParams();
     const [isCast, setIsCast] = useState(true);
     const [error, setError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
@@ -17,7 +17,7 @@ export default function MovieCast() {
             try {
                 setIsLoading(true);
 
-                let data = await fetchMovieCreditsById(movieID);
+                let data = await fetchMovieCreditsById(movieId);
                 if (data.cast.length > 0) {
                     data = data.cast;
 
@@ -33,10 +33,8 @@ export default function MovieCast() {
                 setIsLoading(false);
             }
         }
-        if (movieCast.length === 0) {
-            getMovieCast();
-        }
-    }, []);
+        getMovieCast();
+    }, [movieId]);
 
     return (
         <>

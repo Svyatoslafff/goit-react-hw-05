@@ -16,30 +16,33 @@ const initialValues = {
 
 export default function MoviesPage() {
     const [movies, setMovies] = useState([]);
+    const [query, setQuery] = useState('');
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState(false);
     const [isSearched, setIsSearched] = useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
 
     useEffect(() => {
-        const query = new URLSearchParams(searchParams).get('query');
+        async function getMovies(query) {
+            try {
+                setIsLoading(true);
+                const data = (await fetchMoviesByQuery(query)).results;
+                setMovies(data);
+            } catch (error) {
+                setError(error.status);
+            } finally {
+                setIsLoading(false);
+                setIsSearched(true);
+            }
+        }
+
+        const prevQuery = new URLSearchParams(searchParams).get('query');
         if (query) {
             getMovies(query);
+        } else if (prevQuery) {
+            getMovies(prevQuery);
         }
-    }, []);
-
-    async function getMovies(query) {
-        try {
-            setIsLoading(true);
-            const data = (await fetchMoviesByQuery(query)).results;
-            setMovies(data);
-        } catch (error) {
-            setError(error.status);
-        } finally {
-            setIsLoading(false);
-            setIsSearched(true);
-        }
-    }
+    }, [searchParams, query]);
 
     function handleSubmit(value, action) {
         let { query } = value;
@@ -53,7 +56,7 @@ export default function MoviesPage() {
         updatedSearchParams.set('query', query);
         setSearchParams(updatedSearchParams);
 
-        getMovies(query);
+        setQuery(query);
         action.resetForm();
     }
     return (

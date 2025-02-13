@@ -7,28 +7,26 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import css from './MovieReviews.module.scss';
 
 export default function MovieReviews() {
-    const { movieID } = useParams();
+    const { movieId } = useParams();
     const [error, setError] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
-        try {
-            setIsLoading(true);
+        async function getReviews() {
+            try {
+                setIsLoading(true);
 
-            async function getReviews() {
-                const data = (await fetchMovieReviewsById(movieID)).results;
-
+                const data = (await fetchMovieReviewsById(movieId)).results;
                 setReviews(data);
+            } catch (error) {
+                setError(error.status);
+            } finally {
+                setIsLoading(false);
             }
-
-            getReviews();
-        } catch (error) {
-            setError(error.status);
-        } finally {
-            setIsLoading(false);
         }
-    }, [movieID]);
+        getReviews();
+    }, [movieId]);
 
     return (
         <>
